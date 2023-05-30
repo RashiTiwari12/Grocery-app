@@ -4,8 +4,11 @@ import Navbar from '../components/Navbar';
 import Endpoints from '../api/Endpoints';
 import Constants from '../api/Constants';
 import { useParams } from 'react-router-dom';
+import {useDispatch} from 'react-redux'
+import { addToCart } from '../redux/actions/cart-actions';
 
 const ProductDetailPage =() =>{
+    const dispatch = useDispatch();
     const {id} =useParams()
     const [productDetail, setProductDetail]= useState({})
     const fetchData =() =>{
@@ -16,6 +19,10 @@ const ProductDetailPage =() =>{
     useEffect(() =>{
         fetchData()
     },[id])
+
+    const onClickHandler =()=>{
+     dispatch(addToCart(productDetail))
+    }
     return(
 <>
 <Navbar/>
@@ -34,7 +41,7 @@ const ProductDetailPage =() =>{
                 <span style={{fontSixe: '22px', marginLeft: '10px', color:'#888'}}></span>
                 <del> <span>&#8377;</span>{productDetail.mrp}</del>
             </h2>
-            <a href="#" className="btn btn-primary">Add to cart</a>
+            <button onClick={onClickHandler} className="btn btn-primary">Add to cart</button>
             {/* <Link to={'/products/detail/'+id} className="btn btn-primary btn-block" >Add to cart</Link> */}
         </div>
     </div>
